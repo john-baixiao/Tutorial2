@@ -203,10 +203,16 @@ public class CityConnect {
 		if (parameters.length < PARAM_SIZE_FOR_GET_DISTANCE) {
 			return String.format(MESSAGE_INVALID_FORMAT, userCommand);
 		}
-
+	
 		String newStartLocation = parameters[PARAM_POSITION_START_LOCATION];
 		String newEndLocation = parameters[PARAM_POSITION_END_LOCATION];
 
+		return processPosition(newStartLocation, newEndLocation);
+
+	}
+
+	private static String processPosition(String newStartLocation,
+			String newEndLocation) {
 		int position = getPositionOfExistingRoute(newStartLocation, newEndLocation);
 
 		if (position == NOT_FOUND) {
@@ -216,7 +222,6 @@ public class CityConnect {
 			return String.format(MESSAGE_DISTANCE, newStartLocation, newEndLocation,
 					route[position][STORAGE_POSITION_DISTANCE]);
 		}
-
 	}
 
 	/**
@@ -230,14 +235,22 @@ public class CityConnect {
 			String existing_start_location = route[i][STORAGE_POSITION_START_LOCATION];
 			String existing_end_location = route[i][STORAGE_POSITION_END_LOCATION];
 
-			if (existing_start_location == null) { //beginning of empty slots
-				return NOT_FOUND; 
-			} else if (sameRoute(existing_start_location, existing_end_location,
-					newStartLocation, newEndLocation)) { 
-				return i;
-			}
+			processLocation(newStartLocation, newEndLocation, i,
+					existing_start_location, existing_end_location);
 		}
 		return NOT_FOUND;
+	}
+
+	private static int processLocation(String newStartLocation,
+			String newEndLocation, int i, String existing_start_location,
+			String existing_end_location) {
+		if (existing_start_location == null) { //beginning of empty slots
+			return NOT_FOUND; 
+		} else if (sameRoute(existing_start_location, existing_end_location,
+				newStartLocation, newEndLocation)) { 
+			return i;
+		}
+		return 0;
 	}
 
 	/**
