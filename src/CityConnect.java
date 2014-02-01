@@ -99,6 +99,10 @@ public class CityConnect {
 	 */
 	public static void main(String[] args) {
 		showToUser(WELCOME_MESSAGE);
+		runProgramme();
+	}
+
+	private static void runProgramme() {
 		while (true) {
 			System.out.print("Enter command:");
 			String command = scanner.nextLine();
@@ -128,6 +132,17 @@ public class CityConnect {
 
 		COMMAND_TYPE commandType = determineCommandType(commandTypeString);
 
+		return checkCommandType(userCommand, commandType);
+		/*
+		 * ==============NOTE TO STUDENTS======================================
+		 * If the rest of the program is correct, this error will never be thrown.
+		 * That is why we use an Error instead of an Exception.
+		 * ====================================================================
+		 */
+	}
+
+	private static String checkCommandType(String userCommand,
+			COMMAND_TYPE commandType) throws Error {
 		switch (commandType) {
 		case ADD_ROUTE:
 			return addRoute(userCommand);
@@ -141,12 +156,6 @@ public class CityConnect {
 			//throw an error if the command is not recognized
 			throw new Error("Unrecognized command type");
 		}
-		/*
-		 * ==============NOTE TO STUDENTS======================================
-		 * If the rest of the program is correct, this error will never be thrown.
-		 * That is why we use an Error instead of an Exception.
-		 * ====================================================================
-		 */
 	}
 
 	/*
